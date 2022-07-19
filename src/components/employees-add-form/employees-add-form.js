@@ -5,9 +5,11 @@ import './employees-add-form.css';
 class EmploeesAddForm extends Component {
     constructor(props) {
         super(props);
+        this.title = 'Добавьте нового сотрудника'
         this.state = {
             name: '',
-            salary: ''
+            salary: '',
+            title: this.title
         };
     }
 
@@ -19,18 +21,27 @@ class EmploeesAddForm extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onAdd(this.state.name, this.state.salary);
+        if (this.state.name.length >= 3 && this.state.salary >= 100) {
+                this.props.onAdd(this.state.name, this.state.salary);     
+                this.setState({
+                    title: this.title
+                })       
+        } else {
+            this.setState({
+                title: 'введите корректные данные'
+            })
+        }
         this.setState({
             name: '',
             salary: ''
-        })
+        })     
     }
 
     render() {
-        const {name, salary} = this.state;
+        const {name, salary, title} = this.state;
         return (
             <div className="app-add-form">
-                <h3>Добавьте нового сотрудника</h3>
+                <h3>{title}</h3>
                 <form 
                     className="add-form d-flex"                    
                     onSubmit={this.onSubmit}>
